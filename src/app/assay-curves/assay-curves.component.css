@@ -1,0 +1,45 @@
+.expt-data {
+  fill: #d1d6da;
+  stroke: #212529;
+  stroke-width: 0.5;
+}
+
+.fitted-curve {
+  fill: none;
+  stroke: #212529;
+  stroke-width: 0.5px;
+}
+
+.ic50 {
+  fill: none;
+  stroke-width: 5;
+  opacity: 0.7;
+}
+
+.annotation {
+  alignment-baseline: middle;
+}
+
+.axis-off {
+  display: none;
+}
+
+.rect-limits {
+  fill: none;
+  stroke: #212529;
+  stroke-width: 1;
+}
+
+
+.tick line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.domain{
+  display: none;
+}
+
+.axis text{
+}
