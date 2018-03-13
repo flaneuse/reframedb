@@ -1,4 +1,5 @@
 /* Structure */
+
 .search-result-container {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
   margin-left: 24px;
 }
 
-.mat-table{
+.mat-table {
   font-family: "Lato", Arial, sans-serif;
 }
 
@@ -24,10 +25,11 @@ mat-row:first-of-type {
   border: none;
 }
 
-.search-result-container mat-header-cell {
+.search-result-container mat-header-cell, .mat-sort-header-button {
   opacity: 0.6;
   text-transform: uppercase;
-  font-size: 1.15em;
+  line-height: 1;
+  font-size: 1em;
   font-weight: 300;
   border: none;
 }
@@ -65,12 +67,122 @@ mat-row:first-of-type {
 }
 
 /* Column Widths */
-.mat-column-number,
-.mat-column-state {
+
+.mat-column-number, .mat-column-state {
   max-width: 64px;
 }
 
-
 .mat-column-created {
   max-width: 124px;
+}
+
+/* Table results */
+.true_, .false_ {
+  visibility: visible;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border: #212529 solid 1px;
+  border-radius: 50%;
+  display: block;
+  margin: auto;
+  font-size: 0;
+}
+
+.true_ {
+    background-color: #3d6de050;
+}
+
+/* Tab toggles */
+::ng-deep .mat-tab-labels{
+    justify-content: right; /* align items in Main Axis */
+}
+
+/* Tile search results */
+.mat-grid-tile {
+  background: lightblue;
+  border: 1px solid #DDD;
+  margin: 60px;
+}
+
+@media (min-width: 768px) {
+  .equal, .equal>div[class*='col-'] {
+    display: flex;
+    /* flex: 1 1 auto; */
+    flex-wrap: wrap;
+  }
+}
+
+.equal {
+  /* align-items: top; */
+}
+
+.tile-border {
+  border: 1px solid #DDD;
+  height: 100%;
+  width: 100%;
+  padding: 6px;
+}
+
+.tile-results {
+  padding: 10px;
+}
+
+.alias {
+  padding-bottom: 6px;
+  line-height: 1;
+  font-size: 0.75em;
+}
+
+.alias a {
+  color: #21252980;
+}
+
+.tile-results h4 {
+  color: #212529;
+}
+
+.tile-results h4 {
+  margin-bottom: 3px;
+  margin-top: 3px;
+}
+
+.tile-results h5 {
+  margin-top: 0px;
+  line-height: 1;
+  margin-bottom: 3px;
+  color: #2125299e;
+}
+
+.drug-structs {
+  padding-left: 0px;
+  padding-right: 0px;
+  align-items: flex-start;
+}
+
+.drug-structs img {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+.drug-assays ul {
+  padding: 0px;
+  padding-left: 0px;
+  margin-bottom: 6px;
+  list-style-type: none;
+  line-height: 1;
+}
+
+.drug-classes {
+  margin-top: 15px;
+}
+
+.drug-classes button {
+  font-size: 0.85em;
+  border-radius: 4px;
+  background-color: #c4ff8616;
+  color: #212529bb;
 }

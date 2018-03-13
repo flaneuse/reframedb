@@ -1,37 +1,144 @@
-<div class="search-result-container mat-elevation-z0">
-  <mat-table #table [dataSource]="dataSource">
+<mat-tab-group>
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element['name']}}</mat-cell>
-    </ng-container>
+  <!-- TABLE VIEW -->
+  <mat-tab label="table view">
+    <div class="search-result-container mat-elevation-z0">
+      <!-- <div class="mat-row">
+        <div class="mat-cell"></div>
+        <div class="mat-cell"></div>
+        <div class="mat-cell">available assay data</div>
+        <div class="mat-cell"></div>
+        <div class="mat-cell"></div>
+        <div class="mat-cell"></div>
+      </div> -->
 
-    <ng-container matColumnDef="ikey">
-      <mat-header-cell *matHeaderCellDef> InChI Key </mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element['ikey']}}</mat-cell>
-    </ng-container>
+      <mat-table #table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="chemspider">
-      <mat-header-cell *matHeaderCellDef> ChemSpider </mat-header-cell>
-      <mat-cell *matCellDef="let element"><a href="http://www.chemspider.com/Chemical-Structure.{{element['chemspider']}}.html" target="_blank">{{element['chemspider']}}</a></mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element['name']}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="pubchem">
-      <mat-header-cell *matHeaderCellDef> PubChem </mat-header-cell>
-      <mat-cell *matCellDef="let element"><a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{element['pubchem']}}" target="_blank">{{element['pubchem']}}</a></mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="alias">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Aliases </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element['alias']}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="qid">
-      <mat-header-cell *matHeaderCellDef> Wikidata ID </mat-header-cell>
-      <mat-cell *matCellDef="let element"><a href="{{element['qid']}}" target="_blank">{{element['qid'].split('/').pop()}}</a></mat-cell>
-    </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns; let element;"  (click)="rowClicked($event, element['qid'])"></mat-row>
-  </mat-table>
+        <span *ngFor="let data of assayColumns; let i=index">
+        <ng-container matColumnDef="{{data}}">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> {{data}} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span [ngClass]="element[data]"></span>
+        </mat-cell>
+        </ng-container>
+        </span>
 
-  <mat-paginator #paginator
-                 [pageSize]="10"
-                 [pageSizeOptions]="[5, 10, 20]">
-  </mat-paginator>
-</div>
+
+
+        <!-- <ng-container *ngFor="let data of element['assays']; let i=index;" matColumnDef="assay">
+        <ng-container *ngIf="i<5" matColumnDef="assay{{i}}">
+        <mat-header-cell *matHeaderCellDef> ASSAY </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element['name']}} </mat-cell>
+      </ng-container>
+    </ng-container> -->
+
+
+        <!-- <ng-container matColumnDef="assays">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Assays </mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element['assays']}}</mat-cell>
+    </ng-container> -->
+
+        <!-- <ng-container matColumnDef="ikey">
+          <mat-header-cell *matHeaderCellDef> InChI Key </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element['ikey']}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="chemspider">
+          <mat-header-cell *matHeaderCellDef> ChemSpider </mat-header-cell>
+          <mat-cell *matCellDef="let element"><a href="http://www.chemspider.com/Chemical-Structure.{{element['chemspider']}}.html" target="_blank">{{element['chemspider']}}</a></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pubchem">
+          <mat-header-cell *matHeaderCellDef> PubChem </mat-header-cell>
+          <mat-cell *matCellDef="let element"><a href="https://pubchem.ncbi.nlm.nih.gov/compound/{{element['pubchem']}}" target="_blank">{{element['pubchem']}}</a></mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="qid">
+          <mat-header-cell *matHeaderCellDef> Wikidata ID </mat-header-cell>
+          <mat-cell *matCellDef="let element"><a href="{{element['qid']}}" target="_blank">{{element['qid'].split('/').pop()}}</a></mat-cell>
+        </ng-container> -->
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns" layout="row" layout-align="end"></mat-header-row>
+
+        <mat-row *matRowDef="let row; columns: displayedColumns; let element;" (click)="rowClicked($event, element['qid'])"></mat-row>
+      </mat-table>
+
+    </div>
+  </mat-tab>
+
+  <!--  STRUCTURE, TILED VIEW  -->
+  <mat-tab label="structure view">
+    <div class="container" #tileView *ngIf="dataSource.paginator">
+      <div class="fluid-row equal">
+        <div class="col-lg-3 col-md-4 col-sm-6 tile-results" *ngFor="let result of dataSource.data; let i = index;">
+          <div class="tile-border" *ngIf="i < (dataSource.paginator.pageIndex + 1) * dataSource.paginator.pageSize && i >= (dataSource.paginator.pageIndex * dataSource.paginator.pageSize)">
+
+            <div class='fluid-row'>
+              <a href="/#/compound_data/{{ result['qid'] }}">
+                <h4>{{ result['name'] }}</h4>
+              </a>
+            </div>
+            <div class='fluid-row alias'>
+              <a href="/#/compound_data/{{ result['qid'] }}">
+                      {{ result ['alias'] }}
+              </a>
+            </div>
+
+            <div class='fluid-row equal'>
+              <div class='drug-structs col-sm-6'>
+                <a href="/#/compound_data/{{ result['qid'] }}">
+                  <img src="./assets/struct_img/1691.png" />
+                </a>
+              </div>
+
+              <div class='drug-assays col-sm-6'>
+                <h5>Available Assay Data</h5>
+                <div *ngFor="let assay of result['assays']">
+                  <ul *ngIf="assay['value'] == 1">
+                    <li>
+                      <a href="/#/assays/{{ assay['name'] }}" target="_blank">{{ assay['name'] }}</a>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <div class='fluid-row drug-classes'>
+              <h5>Drug Classes</h5>
+              <mat-chip-list *ngFor="let assay of result['alias']" class="show-more-button-tooltip" matTooltip="search for {{assay['name']}} compounds">
+                <mat-chip>{{assay}}</mat-chip>
+              </mat-chip-list>
+
+              <!-- <button *ngFor="let assay of result['assays']" class="show-more-button-tooltip" matTooltip="search for {{assay['name']}} compounds">
+                    {{assay['name']}}
+                  </button> -->
+            </div>
+          </div>  <!-- end of individual tile -->
+
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+
+</mat-tab-group>
+
+
+
+
+
+<mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+</mat-paginator>
